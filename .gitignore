@@ -1,0 +1,8 @@
+# Ignore everything
+*
+# But descend into directories
+!*/
+# Allow C-Sharp files
+!*.cs
+# Allow .gitignore
+!*.gitignore

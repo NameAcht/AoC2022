@@ -136,10 +136,6 @@ namespace AdventOfCode_19
             currentState.Clay -= robotCost.ClayCost;
             currentState.Obsidian -= robotCost.ObsidianCost;
 
-
-            if(currentState.Obsidian < 0)
-            { }
-
             currentState.Minute += minutes;
         }
         public static void UpdateStateMats(State currentState, int minutes)
