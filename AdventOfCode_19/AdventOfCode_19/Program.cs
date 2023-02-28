@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode_19
 {
@@ -45,7 +41,6 @@ namespace AdventOfCode_19
         public MaterialCost GeodeRobot { get; set; }
         public int MaxOreRobots { get; set; }
     }
-
     public class State
     {
         public State(int minute, int ore, int clay, int obsidian, int geodes, int oreRobots, int clayRobots, int obsidianRobots, int geodeRobots)
@@ -72,11 +67,6 @@ namespace AdventOfCode_19
             ObsidianRobots = s.ObsidianRobots;
             GeodeRobots = s.GeodeRobots;
         }
-
-        public State()
-        {
-        }
-
         public int Minute { get; set; }
         public int Ore { get; set; }
         public int Clay { get; set; }
@@ -107,7 +97,6 @@ namespace AdventOfCode_19
 
             return blueprints;
         }
-
         public static List<Decisions> GetDecisions(State currentState, Blueprint blueprint)
         {
             var decisions = new List<Decisions>();
@@ -119,12 +108,9 @@ namespace AdventOfCode_19
                 decisions.Add(Decisions.BuildClayRobot);
             if (blueprint.MaxOreRobots >= currentState.OreRobots && blueprint.OreRobot.OreCost >= currentState.Ore - 1)
                 decisions.Add(Decisions.BuildOreRobot);
-            
-            
-
+        
             return decisions;
         }
-
         public static void UpdateStateMats(State currentState, int minutes, MaterialCost robotCost)
         {
             currentState.Ore += currentState.OreRobots * minutes;
@@ -135,8 +121,6 @@ namespace AdventOfCode_19
             currentState.Ore -= robotCost.OreCost;
             currentState.Clay -= robotCost.ClayCost;
             currentState.Obsidian -= robotCost.ObsidianCost;
-
-
 
             currentState.Minute += minutes;
         }
@@ -149,7 +133,6 @@ namespace AdventOfCode_19
 
             currentState.Minute += minutes;
         }
-
         public static State UpdateState(State currentState, Decisions decision, Blueprint blueprint)
         {
             int minutes;
@@ -158,7 +141,7 @@ namespace AdventOfCode_19
             {
                 case Decisions.BuildOreRobot:
                     minutes = Math.Max(0, (blueprint.OreRobot.OreCost - currentState.Ore) / currentState.OreRobots);
-                                                                                                                     //required materials / robots for that material + 1 (building the robot) + previous state minutes
+                    //required materials / robots for that material + 1 (building the robot) + previous state minutes
                     if (minutes * currentState.OreRobots + currentState.Ore < blueprint.OreRobot.OreCost)            
                         minutes++;
                     minutes++;  //Building the robot
@@ -209,20 +192,16 @@ namespace AdventOfCode_19
                     Dfs(updateState, blueprint, ref maxGeodes, maxMinutes);
                 }
             }
-
             UpdateStateMats(currentState, maxMinutes - currentState.Minute);
             if(currentState.Geodes > maxGeodes)
                 maxGeodes = currentState.Geodes;
         }
-
         static void Main(string[] args)
         {
             var sw = Stopwatch.StartNew();
             string[] input = System.IO.File.ReadAllLines("input.txt");
             var blueprints = ParseBlueprints(input);
             int qualityLevels = 0;
-
-
             for (int i = 0; i < blueprints.Count; i++)
             {
                 int maxGeodes = 0;
@@ -230,10 +209,7 @@ namespace AdventOfCode_19
                 Dfs(currentState, blueprints[i], ref maxGeodes, 24);
                 qualityLevels += maxGeodes * (i + 1);
             }
-
             Console.WriteLine(qualityLevels);
-            sw.Stop();
-            Console.WriteLine();
             Console.WriteLine(sw.Elapsed);
             Console.ReadLine();
         }

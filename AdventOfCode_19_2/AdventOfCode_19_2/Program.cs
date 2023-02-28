@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdventOfCode_19
 {
@@ -23,7 +19,6 @@ namespace AdventOfCode_19
             ClayCost = clayCost;
             ObsidianCost = obsidianCost;
         }
-
         public int OreCost { get; set; }
         public int ClayCost { get; set; }
         public int ObsidianCost { get; set; }
@@ -36,9 +31,8 @@ namespace AdventOfCode_19
             ClayRobot = clayRobot;
             ObsidianRobot = obsidianRobot;
             GeodeRobot = geodeRobot;
-            MaxOreRobots = Math.Max(Math.Max(ClayRobot.OreCost, ObsidianRobot.OreCost), GeodeRobot.OreCost);
+            MaxOreRobots = Math.Max(Math.Max(ClayRobot.OreCost, ObsidianRobot.OreCost), Math.Max(OreRobot.OreCost, GeodeRobot.OreCost));
         }
-
         public MaterialCost OreRobot { get; set; }
         public MaterialCost ClayRobot { get; set; }
         public MaterialCost ObsidianRobot { get; set; }
@@ -72,11 +66,6 @@ namespace AdventOfCode_19
             ObsidianRobots = s.ObsidianRobots;
             GeodeRobots = s.GeodeRobots;
         }
-
-        public State()
-        {
-        }
-
         public int Minute { get; set; }
         public int Ore { get; set; }
         public int Clay { get; set; }
@@ -104,7 +93,6 @@ namespace AdventOfCode_19
 
                 blueprints.Add(new Blueprint(oreRobot, clayRobot, obsidianRobot, geodeRobot));
             }
-
             return blueprints;
         }
 
@@ -115,9 +103,9 @@ namespace AdventOfCode_19
                 decisions.Add(Decisions.BuildGeodeRobot);
             if (currentState.ClayRobots > 0 && blueprint.ObsidianRobot.OreCost >= currentState.Ore - 15 && blueprint.ObsidianRobot.ClayCost >= currentState.Clay - 15)
                 decisions.Add(Decisions.BuildObsidianRobot);
-            if (blueprint.ClayRobot.OreCost >= currentState.Ore - 1)
+            if (blueprint.ClayRobot.OreCost >= currentState.Ore - 2)
                 decisions.Add(Decisions.BuildClayRobot);
-            if (blueprint.MaxOreRobots >= currentState.OreRobots && blueprint.OreRobot.OreCost >= currentState.Ore - 1)
+            if (blueprint.MaxOreRobots >= currentState.OreRobots && blueprint.OreRobot.OreCost >= currentState.Ore - 2)
                 decisions.Add(Decisions.BuildOreRobot);
 
             return decisions;
@@ -145,7 +133,6 @@ namespace AdventOfCode_19
 
             currentState.Minute += minutes;
         }
-
         public static State UpdateState(State currentState, Decisions decision, Blueprint blueprint)
         {
             int minutes;
@@ -154,7 +141,7 @@ namespace AdventOfCode_19
             {
                 case Decisions.BuildOreRobot:
                     minutes = Math.Max(0, (blueprint.OreRobot.OreCost - currentState.Ore) / currentState.OreRobots);
-
+                    //required materials / robots for that material + 1 (building the robot) + previous state minutes
                     if (minutes * currentState.OreRobots + currentState.Ore < blueprint.OreRobot.OreCost)
                         minutes++;
                     minutes++;  //Building the robot
@@ -205,31 +192,27 @@ namespace AdventOfCode_19
                     Dfs(updateState, blueprint, ref maxGeodes, maxMinutes);
                 }
             }
-
             UpdateStateMats(currentState, maxMinutes - currentState.Minute);
             if (currentState.Geodes > maxGeodes)
                 maxGeodes = currentState.Geodes;
         }
-
         static void Main(string[] args)
         {
             var sw = Stopwatch.StartNew();
             string[] input = System.IO.File.ReadAllLines("input.txt");
             var blueprints = ParseBlueprints(input);
-            int arbitraryResultNumber = 0;
-
+            int result = 0;
             for (int i = 0; i < 3; i++)
             {
                 int maxGeodes = 0;
                 var currentState = new State(0, 0, 0, 0, 0, 1, 0, 0, 0);
                 Dfs(currentState, blueprints[i], ref maxGeodes, 32);
                 if (i == 0)
-                    arbitraryResultNumber = maxGeodes;
+                    result = maxGeodes;
                 else
-                    arbitraryResultNumber *= maxGeodes;
+                    result *= maxGeodes;
             }
-            Console.WriteLine(arbitraryResultNumber);
-            sw.Stop();
+            Console.WriteLine(result);
             Console.WriteLine(sw.Elapsed);
             Console.ReadLine();
         }
