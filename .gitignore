@@ -3,6 +3,6 @@
 # But descend into directories
 !*/
 # Allow C-Sharp files
-!*.cs
+!*Program.cs
 # Allow .gitignore
 !*.gitignore
