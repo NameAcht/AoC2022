@@ -1,0 +1,8 @@
+C:\Users\opfer\source\repos\AdventOfCode_19\AdventOfCode_19\bin\Debug\AdventOfCode_19.exe.config
+C:\Users\opfer\source\repos\AdventOfCode_19\AdventOfCode_19\bin\Debug\AdventOfCode_19.exe
+C:\Users\opfer\source\repos\AdventOfCode_19\AdventOfCode_19\bin\Debug\AdventOfCode_19.pdb
+C:\Users\opfer\source\repos\AdventOfCode_19\AdventOfCode_19\obj\Debug\AdventOfCode_19.csproj.AssemblyReference.cache
+C:\Users\opfer\source\repos\AdventOfCode_19\AdventOfCode_19\obj\Debug\AdventOfCode_19.csproj.SuggestedBindingRedirects.cache
+C:\Users\opfer\source\repos\AdventOfCode_19\AdventOfCode_19\obj\Debug\AdventOfCode_19.csproj.CoreCompileInputs.cache
+C:\Users\opfer\source\repos\AdventOfCode_19\AdventOfCode_19\obj\Debug\AdventOfCode_19.exe
+C:\Users\opfer\source\repos\AdventOfCode_19\AdventOfCode_19\obj\Debug\AdventOfCode_19.pdb
